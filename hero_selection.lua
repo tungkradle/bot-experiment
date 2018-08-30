@@ -22,7 +22,7 @@ end
 -- change quickMode to true for testing
 -- quickMode eliminates the 30s delay before picks begin
 -- it also eliminates the delay between bot picks
-local quickMode = false;
+local quickMode = true;
 local testMode =  false;
 
 local allBotHeroes = {
@@ -781,16 +781,18 @@ end
 function PickRightHero(slot)
 	local initHero = GetRandomHero();
 	local Team = GetTeam();
-	if slot == 1 then
+	if slot == 0 then
+		while not role.CanBeSafeLaneCarry(initHero) do
+			initHero = GetRandomHero();
+		end
+	elseif slot == 1 then
 		while not role.CanBeMidlaner(initHero) do
 			initHero = GetRandomHero();
-		end
+		end		
 	elseif slot == 2 then
-		while ( Team == TEAM_RADIANT and not role.CanBeOfflaner(initHero) ) or 
-			  ( Team == TEAM_DIRE and not role.CanBeSafeLaneCarry(initHero) ) 
-		do
+		while not role.CanBeOfflaner(initHero) do
 			initHero = GetRandomHero();
-		end
+		end		
 	elseif slot == 3 then
 		while not role.CanBeSupport(initHero) do
 			initHero = GetRandomHero();
@@ -798,13 +800,7 @@ function PickRightHero(slot)
 	elseif slot == 4 then
 		while not role.CanBeSupport(initHero) do
 			initHero = GetRandomHero();
-		end
-	elseif slot == 0 then
-		while ( Team == TEAM_RADIANT and not role.CanBeSafeLaneCarry(initHero) ) or 
-			  ( Team == TEAM_DIRE and not role.CanBeOfflaner(initHero) )
-		do
-			initHero = GetRandomHero();
-		end
+		end	
 	end
 	return initHero;
 end

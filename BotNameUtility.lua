@@ -81,18 +81,23 @@ local sponsorships = {"GG.bet", "gg.bet", "VPGAME", "LOOT.bet", "loot.bet", "", 
 
 function U.GetDota2Team()
 	local bot_names = {};
-	local rand = RandomInt(1, #dota2teams);
+	local team = {}
+	local t1 = RandomInt(1, #dota2teams);
+	local t2 = RandomInt(1, #dota2teams);
 	local srand = RandomInt(1, #sponsorships);
+	-- Make sure Radiant and Dire choose different teams
+	print(t1, t2)
 	if GetTeam() == TEAM_RADIANT then
-		while rand%2 ~= 0 do
-			rand = RandomInt(1, #dota2teams); 
-		end
-	else
-		while rand%2 ~= 1 do
-			rand = RandomInt(1, #dota2teams); 
-		end
+		t1 = RandomInt(1, #dota2teams);
+		t2 = RandomInt(1, #dota2teams);
 	end
-	local team = dota2teams[rand];
+	print(t1, t2)
+	-- Assign Names/Sponsors
+	if GetTeam() == TEAM_RADIANT then
+		team = dota2teams[t1];
+	else
+		team = dota2teams[t2];
+	end
 	for _,player in pairs(team.players) do
 		if team.sponsorship == "" then
 			table.insert(bot_names, team.alias.."."..player);
