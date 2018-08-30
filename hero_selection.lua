@@ -781,18 +781,14 @@ end
 function PickRightHero(slot)
 	local initHero = GetRandomHero();
 	local Team = GetTeam();
-	if slot == 0 then
+	if slot == 1 then
 		while not role.CanBeMidlaner(initHero) do
 			initHero = GetRandomHero();
 		end
-	elseif slot == 1 then
+	elseif slot == 2 then
 		while ( Team == TEAM_RADIANT and not role.CanBeOfflaner(initHero) ) or 
 			  ( Team == TEAM_DIRE and not role.CanBeSafeLaneCarry(initHero) ) 
 		do
-			initHero = GetRandomHero();
-		end
-	elseif slot == 2 then
-		while not role.CanBeSupport(initHero) do
 			initHero = GetRandomHero();
 		end
 	elseif slot == 3 then
@@ -800,6 +796,10 @@ function PickRightHero(slot)
 			initHero = GetRandomHero();
 		end
 	elseif slot == 4 then
+		while not role.CanBeSupport(initHero) do
+			initHero = GetRandomHero();
+		end
+	elseif slot == 0 then
 		while ( Team == TEAM_RADIANT and not role.CanBeSafeLaneCarry(initHero) ) or 
 			  ( Team == TEAM_DIRE and not role.CanBeOfflaner(initHero) )
 		do
